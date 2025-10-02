@@ -17,8 +17,8 @@ type ServiceAccountReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch
-//+kubebuilder:rbac:groups="",resources=secrets,verbs=create
+// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch
+// +kubebuilder:rbac:groups="",resources=secrets,verbs=create
 
 func (r *ServiceAccountReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := ctrl.LoggerFrom(ctx)
