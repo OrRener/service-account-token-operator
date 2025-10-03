@@ -56,8 +56,7 @@ func (r *ServiceAccountReconciler) SetupWithManager(mgr ctrl.Manager) error {
 			return ok
 		},
 		DeleteFunc: func(e event.DeleteEvent) bool {
-			_, ok := e.Object.GetAnnotations()["or.io/create-secret"]
-			return ok
+			return false
 		},
 		GenericFunc: func(e event.GenericEvent) bool {
 			_, ok := e.Object.GetAnnotations()["or.io/create-secret"]
