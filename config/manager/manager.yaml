@@ -26,7 +26,6 @@ spec:
       labels:
         app.kubernetes.io/name: service-account-token-operator
     spec:
-      securityContext:
       containers:
       - command:
         - /manager
@@ -37,12 +36,6 @@ spec:
         image: quay.io/orrener1337/sa-token-operator
         name: manager
         ports: []
-        securityContext:
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - "ALL"
         livenessProbe:
           httpGet:
             path: /healthz
