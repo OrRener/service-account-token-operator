@@ -27,7 +27,7 @@ func (r *ServiceAccountReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	sa, err := r.fetchInstance(ctx, req)
 	if err != nil {
 		log.Error(err, "failed to fetch service account instance")
-		return ctrl.Result{}, err
+		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	log.Info("attempting to create secret for service account: ", "name", sa.Name, "namespace", sa.Namespace)
