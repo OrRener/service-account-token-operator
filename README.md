@@ -1,13 +1,18 @@
 # service-account-token-operator
 This is the repo containing the source code of the operator(controller) that creates long-lived tokens for service-accounts.
 
-## Description
+## Description / How to use
 This operator works by watching all the service accounts in the cluster. If a service account is created with an annotation / the following annotation is added to it: `or.io/create-secret: ""`, then the controller will attempt to create a long-lived token for that service account.
 It will do it by creating a secret of type `serviceAccountToken` for it. 
 The operator will only attempt to create the secret, meaning if a secret with the name `<service-account-name>-token` already exists in the namespace, it will skip creating it. 
 
 ## How to install
-TBA
+To install this controller on your cluster, all you need is to apply the kustomize that can be found under `config/default/kustomization.yaml`, this kustomization has all the needed manifests to deploy the controller, including a metrics endpoint. It deploys the following: 
+- Manager's deployment
+- Service for metrics
+- Namespace for the controller and everything related.
+- All the necessary RBAC (can be changed by editing the `config/rbac/kustomization.yaml` repository) 
+- Dedicated serviceAccount
 
 ## Permissions needed
 The service account for the controller needs minimal permissions: Get,List,Watch on `serviceAccounts` and Create on `secrets`.
