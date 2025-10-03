@@ -27,7 +27,7 @@ func (r *ServiceAccountReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	sa, err := r.fetchInstance(ctx, req)
 	if err != nil {
 		log.Error(err, "failed to fetch service account instance")
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, err
 	}
 
 	log.Info("attempting to create secret for service account: ", "name", sa.Name, "namespace", sa.Namespace)
@@ -56,8 +56,7 @@ func (r *ServiceAccountReconciler) SetupWithManager(mgr ctrl.Manager) error {
 			return ok
 		},
 		DeleteFunc: func(e event.DeleteEvent) bool {
-			_, ok := e.Object.GetAnnotations()["or.io/create-secret"]
-			return ok
+			return false
 		},
 		GenericFunc: func(e event.GenericEvent) bool {
 			_, ok := e.Object.GetAnnotations()["or.io/create-secret"]
