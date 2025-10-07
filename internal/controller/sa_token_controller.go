@@ -55,8 +55,7 @@ func (r *ServiceAccountReconciler) SetupWithManager(mgr ctrl.Manager) error {
 			return hasLongLivedAnnotation(e.ObjectNew.GetAnnotations()) || hasRenewalAnnotation(e.ObjectNew.GetAnnotations())
 		},
 		DeleteFunc: func(e event.DeleteEvent) bool {
-			_, ok := e.Object.GetAnnotations()["or.io/create-secret"]
-			return ok
+			return false
 		},
 		GenericFunc: func(e event.GenericEvent) bool {
 			return hasLongLivedAnnotation(e.Object.GetAnnotations()) || hasRenewalAnnotation(e.Object.GetAnnotations())
