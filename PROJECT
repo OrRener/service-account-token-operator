@@ -8,4 +8,14 @@ layout:
 - go.kubebuilder.io/v4
 projectName: service-account-token-operator
 repo: github.com/OrRener/service-account-token-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: or.io
+  group: or.io
+  kind: TokenRenewalRequest
+  path: github.com/OrRener/service-account-token-operator/api/v1
+  version: v1
 version: "3"

@@ -1,0 +1,107 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: tokenrenewalrequests.or.io.or.io
+spec:
+  group: or.io.or.io
+  names:
+    kind: TokenRenewalRequest
+    listKind: TokenRenewalRequestList
+    plural: tokenrenewalrequests
+    singular: tokenrenewalrequest
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: TokenRenewalRequest is the Schema for the tokenrenewalrequests
+          API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: spec defines the desired state of TokenRenewalRequest
+            properties:
+              gitLabInfo:
+                description: GitLabInfo is the information about the varaible in GitLab
+                  to update
+                properties:
+                  gitLabTokenSecretRef:
+                    properties:
+                      key:
+                        default: token
+                        type: string
+                      name:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  gitlabUrl:
+                    type: string
+                  projectID:
+                    type: integer
+                  variableKey:
+                    type: string
+                required:
+                - gitLabTokenSecretRef
+                - gitlabUrl
+                - projectID
+                - variableKey
+                type: object
+              renewalAfter:
+                description: RenewalAfter is the duration after which the token should
+                  be renewed (seconds/minutes/hours)
+                type: string
+              serviceAccountName:
+                description: ServiceAccountName is the name of the service account
+                  to renew the token for
+                type: string
+            required:
+            - renewalAfter
+            - serviceAccountName
+            type: object
+          status:
+            description: status defines the observed state of TokenRenewalRequest
+            properties:
+              lastRenewalTime:
+                description: LastRenewalTime is the last time the token was renewed
+                format: date-time
+                type: string
+              message:
+                description: Message is a human-readable message indicating details
+                  about the last renewal
+                type: string
+              success:
+                description: Success indicates whether the last renewal was successful
+                type: boolean
+              tokenExpirationTime:
+                description: TokenExpirationTime is the expiration time of the current
+                  token
+                format: date-time
+                type: string
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

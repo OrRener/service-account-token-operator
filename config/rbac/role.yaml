@@ -18,3 +18,29 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - or.io.or.io
+  resources:
+  - tokenrenewalrequests
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - or.io.or.io
+  resources:
+  - tokenrenewalrequests/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - or.io.or.io
+  resources:
+  - tokenrenewalrequests/status
+  verbs:
+  - get
+  - patch
+  - update

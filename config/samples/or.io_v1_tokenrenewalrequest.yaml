@@ -1,0 +1,9 @@
+apiVersion: or.io.or.io/v1
+kind: TokenRenewalRequest
+metadata:
+  labels:
+    app.kubernetes.io/name: service-account-token-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: tokenrenewalrequest-sample
+spec:
+  # TODO(user): Add fields here
