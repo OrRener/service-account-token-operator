@@ -35,11 +35,11 @@ func getRenewalPeriod(annotations map[string]string) (time.Duration, error) {
 
 }
 
-func getHandler(sa *corev1.ServiceAccount, ctx context.Context, client client.Client, log logr.Logger) (Handler, error) {
+func getHandler(sa *corev1.ServiceAccount, ctx context.Context, runtimeClient client.Client, log logr.Logger) (Handler, error) {
 	annotations := sa.Annotations
 
 	if hasLongLivedAnnotation(annotations) {
-		return &LongLivedHandler{Sa: sa, Ctx: ctx, Log: log, Client: client}, nil
+		return &LongLivedHandler{Sa: sa, Ctx: ctx, Log: log, Client: runtimeClient}, nil
 	}
 
 	if hasRenewalAnnotation(annotations) {
@@ -47,7 +47,7 @@ func getHandler(sa *corev1.ServiceAccount, ctx context.Context, client client.Cl
 		if err != nil {
 			return nil, err
 		}
-		return &RenewalHandler{Sa: sa, Ctx: ctx, Log: log, Client: client, RenewalAfter: renewalPeriod}, nil
+		return &RenewalHandler{Sa: sa, Ctx: ctx, Log: log, Client: runtimeClient, RenewalAfter: renewalPeriod}, nil
 	}
 
 	return nil, fmt.Errorf("no handler found for service account %s/%s, this might mean that the annotation is not set correctly", sa.Namespace, sa.Name)
